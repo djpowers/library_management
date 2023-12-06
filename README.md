@@ -1,24 +1,11 @@
-# README
+# Library Management
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Install
 
-Things you may want to cover:
+This application uses Ruby 3.2.2 and relies on a PostgreSQL database.
 
-* Ruby version
+Install the dependencies with `bundle install`.
 
-* System dependencies
+Create the database with `bin/rails db:create`.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Run the server with `bin/rails s`.
