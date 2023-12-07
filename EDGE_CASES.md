@@ -13,3 +13,8 @@
 ## Add Book to Library
 
 - creation of book does not validate if ISBN and author/title match
+
+## Register Borrower
+
+- does not require name or credit card (at least name likely should be enforced)
+- should also validate credit card format
