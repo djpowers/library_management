@@ -9,10 +9,12 @@ class BooksController < ApplicationController
   end
 
   def update
-    @book = Book.find(params[:id])
+    @book = Book.find(params[:id] || params[:book_id])
     @borrower = Borrower.find(params[:borrower_id])
 
-    if @borrower.books.overdue.present?
+    if params[:return] == true
+      @book.update(due_date: nil, borrower_id: nil)
+    elsif @borrower.books.overdue.present?
       render status: :unprocessable_entity
     else
       @book.update(due_date: 1.week.from_now, borrower_id: @borrower.id)

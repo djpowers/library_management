@@ -52,4 +52,22 @@ RSpec.describe "Books", type: :request do
       expect(book.reload.borrower).to be_nil
     end
   end
+
+  describe "PATCH /libraries/:library_id/books/:book_id/return" do
+    it "updates a book with lending details" do
+      borrower = FactoryBot.create(:borrower)
+      library = borrower.library
+
+      book = FactoryBot.create(:book, :overdue)
+
+      patch library_book_return_path(
+        library.id,
+        book.id,
+        borrower_id: borrower.id
+      )
+
+      expect(book.reload.due_date).to be_nil
+      expect(book.reload.borrower).to be_nil
+    end
+  end
 end

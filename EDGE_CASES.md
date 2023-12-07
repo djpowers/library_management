@@ -18,3 +18,7 @@
 
 - does not require name or credit card (at least name likely should be enforced)
 - should also validate credit card format
+
+## Lend Books / Return Books
+
+- not currently handling errors if book and borrower are not found
