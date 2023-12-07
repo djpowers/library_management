@@ -36,5 +36,20 @@ RSpec.describe "Books", type: :request do
       expect(book.reload.due_date).to be_present
       expect(book.reload.borrower).to eq(borrower)
     end
+
+    it "rejects book lending if borrower has overdue books" do
+      late_book = FactoryBot.create(:book, :overdue)
+      book = FactoryBot.create(:book)
+
+      patch library_book_path(
+        book.library.id,
+        book.id,
+        borrower_id: late_book.borrower.id
+      )
+
+      expect(response.code).to eq("422")
+      expect(book.reload.due_date).to be_nil
+      expect(book.reload.borrower).to be_nil
+    end
   end
 end

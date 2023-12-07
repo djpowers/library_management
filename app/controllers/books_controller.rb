@@ -11,7 +11,12 @@ class BooksController < ApplicationController
   def update
     @book = Book.find(params[:id])
     @borrower = Borrower.find(params[:borrower_id])
-    @book.update(due_date: 1.week.from_now, borrower_id: @borrower.id)
+
+    if @borrower.books.overdue.present?
+      render status: :unprocessable_entity
+    else
+      @book.update(due_date: 1.week.from_now, borrower_id: @borrower.id)
+    end
   end
 
   private
