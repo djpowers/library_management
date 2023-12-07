@@ -22,6 +22,11 @@ class BooksController < ApplicationController
     end
   end
 
+  def index
+    @books = Book.where(library: @library)
+    render json: @books
+  end
+
   private
 
   def get_library

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :libraries, only: :create do
-    resources :books, only: [:create, :update] do
+    resources :books, only: [:create, :update, :index] do
       patch '/return', to: 'books#update', return: true
     end
     resources :borrowers, only: :create

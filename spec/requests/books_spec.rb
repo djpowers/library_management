@@ -71,4 +71,20 @@ RSpec.describe "Books", type: :request do
       expect(book.library).to eq(return_library)
     end
   end
+
+  describe "GET /libraries/:library_id/books" do
+    it "returns books whose titles partially match search query" do
+      library = FactoryBot.create(:library)
+      desired_book = FactoryBot.create(:book, title: "My Great American Novel", library:)
+      other_book = FactoryBot.create(:book, title: "A Less Compelling Book", library:)
+
+      get library_books_path(
+        desired_book.library.id,
+        query: 'Great'
+      )
+
+      books = JSON.parse(response.body)
+      expect(books).to include(JSON.parse(desired_book.to_json))
+    end
+  end
 end
