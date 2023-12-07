@@ -8,6 +8,12 @@ class BooksController < ApplicationController
     end
   end
 
+  def update
+    @book = Book.find(params[:id])
+    @borrower = Borrower.find(params[:borrower_id])
+    @book.update(due_date: 1.week.from_now, borrower_id: @borrower.id)
+  end
+
   private
 
   def book_params
