@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
+  before_action :get_library
+
   def create
-    @library = Library.find(params[:library_id])
     @book = @library.books.build(book_params)
 
     if @book.save
@@ -13,7 +14,7 @@ class BooksController < ApplicationController
     @borrower = Borrower.find(params[:borrower_id])
 
     if params[:return] == true
-      @book.update(due_date: nil, borrower_id: nil)
+      @book.update(library: @library, due_date: nil, borrower_id: nil)
     elsif @borrower.books.overdue.present?
       render status: :unprocessable_entity
     else
@@ -22,6 +23,10 @@ class BooksController < ApplicationController
   end
 
   private
+
+  def get_library
+    @library = Library.find(params[:library_id])
+  end
 
   def book_params
     params.require(:book).permit(:isbn, :author, :title)
