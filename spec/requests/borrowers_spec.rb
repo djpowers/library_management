@@ -4,16 +4,30 @@ RSpec.describe "Borrowers", type: :request do
   describe "POST /" do
     it "creates a new user and borrower relationship" do
       library = FactoryBot.create(:library)
-      user = FactoryBot.create(:user)
+      user = FactoryBot.build(:user)
 
       expect {
-        post borrowers_path(
-          library_id: library.id,
-          user_id: user.id
+        post library_borrowers_path(
+          library.id,
+          user: user.attributes
         )
       }.to change(Borrower, :count).by(1)
-      expect(library.reload.users).to include(user)
-      expect(user.reload.libraries).to include(library)
+      expect(library.reload.users.first.name).to eq(user.name)
+      expect(User.first.libraries.first.name).to eq(library.name)
+    end
+
+    it "finds an existing user and creates a new borrower releationship" do
+      borrower = FactoryBot.create(:borrower)
+      user = borrower.user
+      new_library = FactoryBot.create(:library, name: 'New Library')
+
+      expect {
+        post library_borrowers_path(
+          new_library.id,
+          user: user.attributes
+        )
+      }.to change(Borrower, :count).by(1)
+       .and change(User, :count).by(0)
     end
   end
 end

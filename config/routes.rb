@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :borrowers, only: :create
   resources :libraries, only: :create do
     resources :books, only: :create
+    resources :borrowers, only: :create
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
