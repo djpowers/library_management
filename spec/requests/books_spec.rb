@@ -132,13 +132,13 @@ RSpec.describe "Books", type: :request do
     end
 
     context "with multiple libraries" do
+      library1 = FactoryBot.create(:library)
+      library2 = FactoryBot.create(:library)
+
+      FactoryBot.create(:book, isbn: "1234", title: "My Great American Novel", author: "Jane Doe", library: library1)
+      FactoryBot.create(:book, isbn: "5678", title: "The Next Great American Novel", author: "Jane Doe", library: library2)
+
       it "scopes search to a single library" do
-        library1 = FactoryBot.create(:library)
-        library2 = FactoryBot.create(:library)
-
-        FactoryBot.create(:book, isbn: "1234", title: "My Great American Novel", author: "Jane Doe", library: library1)
-        FactoryBot.create(:book, isbn: "5678", title: "The Next Great American Novel", author: "Jane Doe", library: library2)
-
         get library_books_path(
           library1.id,
           query: 'Great'
@@ -146,6 +146,19 @@ RSpec.describe "Books", type: :request do
 
         books = JSON.parse(response.body)
         expect(books.length).to eq(1)
+      end
+
+      context "with a global search flag included" do
+        it "returns books across libraries" do
+          get library_books_path(
+            library1.id,
+            query: 'Great',
+            global: true
+          )
+
+          books = JSON.parse(response.body)
+          expect(books.length).to eq(2)
+        end
       end
     end
   end

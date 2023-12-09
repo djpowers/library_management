@@ -23,7 +23,13 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.where(library: @library).where("title ILIKE ?", "%#{params[:query]}%")
+    books = if params[:global] == "true"
+      Book
+    else
+      Book.where(library: @library)
+    end
+
+    @books = books.where("title ILIKE ?", "%#{params[:query]}%")
 
     books_by_isbn = @books.group_by { |book| book[:isbn] }
 
