@@ -84,8 +84,30 @@ RSpec.describe "Books", type: :request do
       )
 
       books = JSON.parse(response.body)
-      expect(books).to include(JSON.parse(desired_book.to_json))
-      expect(books).to_not include(JSON.parse(other_book.to_json))
+      expect(books.length).to eq(1)
+      expect(books.first["title"]).to eq(desired_book.title)
+    end
+
+    it "returns title, and availability or due date" do
+      library = FactoryBot.create(:library)
+      desired_book = FactoryBot.create(:book, isbn: "1234", title: "My Great American Novel", author: "Jane Doe", library:)
+
+      get library_books_path(
+        desired_book.library.id,
+        query: 'Great'
+      )
+
+      expect(JSON.parse(response.body)).to eq(
+        [
+          {
+            "isbn" => "1234",
+            "title" => "My Great American Novel",
+            "author" => "Jane Doe",
+            "available" => true,
+            "due_back" => nil
+          }
+        ]
+      )
     end
   end
 end
