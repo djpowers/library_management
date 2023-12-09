@@ -23,7 +23,7 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.where(library: @library)
+    @books = Book.where(library: @library).where("title ILIKE ?", "%#{params[:query]}%")
     render json: @books
   end
 

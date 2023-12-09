@@ -85,6 +85,7 @@ RSpec.describe "Books", type: :request do
 
       books = JSON.parse(response.body)
       expect(books).to include(JSON.parse(desired_book.to_json))
+      expect(books).to_not include(JSON.parse(other_book.to_json))
     end
   end
 end
