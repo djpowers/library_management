@@ -158,6 +158,8 @@ RSpec.describe "Books", type: :request do
 
           books = JSON.parse(response.body)
           expect(books.length).to eq(2)
+          expect(books.first["library_id"]).to be_present
+          expect(books.second["library_id"]).to be_present
         end
       end
     end

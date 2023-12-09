@@ -51,13 +51,17 @@ class BooksController < ApplicationController
     end
 
     books_data = filtered_books.map do |book|
-      {
+      book_data = {
         isbn: book.isbn,
         title: book.title,
         author: book.author,
         available: book.due_date.nil?,
         due_back: book.due_date.present? ? book.due_date : nil
       }
+
+      book_data[:library_id] = book.library.id if params[:global] == "true"
+
+      book_data
     end
 
     render json: books_data
