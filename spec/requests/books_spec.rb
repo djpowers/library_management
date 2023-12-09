@@ -109,5 +109,26 @@ RSpec.describe "Books", type: :request do
         ]
       )
     end
+
+    context "with multiple copies of a book" do
+      it "returns only one copy of each (available, or due back earliest)" do
+        library = FactoryBot.create(:library)
+        FactoryBot.create(:book, :overdue, isbn: "1234", title: "My Great American Novel", author: "Jane Doe", library:)
+        FactoryBot.create(:book, isbn: "1234", title: "My Great American Novel", author: "Jane Doe", library:)
+
+        FactoryBot.create(:book, :overdue, isbn: "5678", title: "The Next Great American Novel", author: "Jane Doe", library:, due_date: 2.hours.from_now)
+        FactoryBot.create(:book, :overdue, isbn: "5678", title: "The Next Great American Novel", author: "Jane Doe", library:, due_date: 2.days.from_now)
+
+        get library_books_path(
+          library.id,
+          query: 'Great'
+        )
+
+        books = JSON.parse(response.body)
+        expect(books.length).to eq(2)
+        expect(books.first["available"]).to be(true)
+        expect(books.second["due_back"]).to be_present
+      end
+    end
   end
 end

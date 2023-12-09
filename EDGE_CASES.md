@@ -22,7 +22,3 @@
 ## Lend Books / Return Books
 
 - not currently handling errors if book and borrower are not found
-
-## Find Books by Title
-
-- not currently performing case insensitive search

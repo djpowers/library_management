@@ -25,7 +25,26 @@ class BooksController < ApplicationController
   def index
     @books = Book.where(library: @library).where("title ILIKE ?", "%#{params[:query]}%")
 
-    books_data = @books.map do |book|
+    books_by_isbn = @books.group_by { |book| book[:isbn] }
+
+    filtered_books = books_by_isbn.map do |isbn, books|
+      if books.length >= 2
+        available = books.filter{ |book| book.due_date.nil? }
+        unavailable = books.filter{ |book| book.due_date.present? }
+
+        if available.present?
+          available.first
+        elsif unavailable.present?
+          unavailable
+            .sort { |book_a, book_b| book_a.due_date - book_b.due_date }
+            .first
+        end
+      else
+        books.first
+      end
+    end
+
+    books_data = filtered_books.map do |book|
       {
         isbn: book.isbn,
         title: book.title,
