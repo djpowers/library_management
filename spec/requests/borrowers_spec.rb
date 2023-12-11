@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Borrowers", type: :request do
-  describe "POST /" do
+  describe "POST /libraries/:library_id/borrowers" do
     it "creates a new user and borrower relationship" do
       library = FactoryBot.create(:library)
       user = FactoryBot.build(:user)

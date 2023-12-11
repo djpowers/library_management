@@ -1,0 +1,215 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Library Management API Document",
+    "version": "v0.0.0"
+  },
+  "host": "localhost:3000",
+  "schemes": ["http"],
+  "basePath": "/libraries",
+  "paths": {
+    "/": {
+      "post": {
+        "summary": "Create library",
+        "description": "",
+        "operationId": "57becfe6-3835-420f-b379-311491ad4995",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "type": "string",
+            "default": "Boston Public Library – Copley Branch",
+            "name": "name",
+            "required": true,
+            "in": "formData"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/{library_id}/books": {
+      "post": {
+        "summary": "Add Book to Library",
+        "description": "",
+        "operationId": "667a0343-7f0b-420e-9488-b4d318ea3535",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "type": "string",
+            "default": "123456789",
+            "name": "book[isbn]",
+            "required": true,
+            "in": "formData"
+          },
+          {
+            "type": "string",
+            "default": "A New Book",
+            "name": "book[title]",
+            "required": true,
+            "in": "formData"
+          },
+          {
+            "type": "string",
+            "default": "Jane Doe",
+            "name": "book[author]",
+            "required": true,
+            "in": "formData"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "library_id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/{1}/books": {
+      "get": {
+        "summary": "Find Books by Title",
+        "description": "",
+        "operationId": "1c5384a2-c477-4960-9702-ca0be82888cf",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "great",
+            "name": "query",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "true",
+            "name": "global",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "1",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/{1}/borrowers": {
+      "post": {
+        "summary": "Register Borrower",
+        "description": "",
+        "operationId": "f9c3a716-1af7-4b99-83d6-9730a256aace",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "parameters": [
+          {
+            "type": "string",
+            "default": "John Doe",
+            "name": "user[name]",
+            "required": true,
+            "in": "formData"
+          },
+          {
+            "type": "string",
+            "default": "12345678",
+            "name": "user[credit_card]",
+            "required": false,
+            "in": "formData"
+          },
+          {
+            "type": "string",
+            "name": "1",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/{1}/books/{book_id}": {
+      "patch": {
+        "summary": "Lend Books",
+        "description": "",
+        "operationId": "0fc3d7f8-2e18-4bea-b20f-9b20c563ea96",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "1",
+            "name": "borrower_id",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "1",
+            "required": true,
+            "in": "path"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "book_id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/{1}/books/{book_id}/return": {
+      "patch": {
+        "summary": "Return books",
+        "description": "",
+        "operationId": "d0566f4d-d2a2-4d9c-ba61-449ea6892361",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "1",
+            "name": "borrower_id",
+            "required": true,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "1",
+            "required": true,
+            "in": "path"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "book_id",
+            "required": true,
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
